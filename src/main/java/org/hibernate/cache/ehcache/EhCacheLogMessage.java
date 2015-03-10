@@ -24,45 +24,33 @@
 package org.hibernate.cache.ehcache;
 
 
-import org.slf4j.Logger;
-
-import org.hibernate.internal.CoreMessageLogger;
-
-import org.jboss.logging.annotations.LogMessage;
-import org.jboss.logging.annotations.Message;
-import org.jboss.logging.annotations.MessageLogger;
-
-import static org.jboss.logging.Logger.Level.WARN;
-
 /**
  * The jboss-logging {@link MessageLogger} for the hibernate-ehcache module.  It reserves message ids ranging from
  * 20001 to 25000 inclusively.
  * <p/>
  * New messages must be added after the last message defined to ensure message codes are unique.
  */
-@MessageLogger(projectCode = "HHH")
-public interface EhCacheMessageLogger extends Logger {
+public final class EhCacheLogMessage {
+	private EhCacheLogMessage() {
+	}
 
 	/**
 	 * Log a message (WARN) about attempt to start an already started Ehcache region factory
 	 */
-	@LogMessage(level = WARN)
-	@Message(
-			value = "Attempt to restart an already started EhCacheRegionFactory.  Use sessionFactory.close() between " +
-					"repeated calls to buildSessionFactory. Using previously created EhCacheRegionFactory. If this " +
-					"behaviour is required, consider using org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory.",
-			id = 20001
-	)
-	void attemptToRestartAlreadyStartedEhCacheProvider();
+	public static String attemptToRestartAlreadyStartedEhCacheProvider() {
+		return "Attempt to restart an already started EhCacheRegionFactory.  Use sessionFactory.close() between " +
+				"repeated calls to buildSessionFactory. Using previously created EhCacheRegionFactory. If this " +
+				"behaviour is required, consider using org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory.";
+	}
 
 	/**
 	 * Log a message (WARN) about inability to find configuration file
 	 *
 	 * @param name The name of the configuration file
 	 */
-	@LogMessage(level = WARN)
-	@Message(value = "Could not find configuration [%s]; using defaults.", id = 20002)
-	void unableToFindConfiguration(String name);
+	public static String unableToFindConfiguration(String name) {
+		return String.format( "Could not find configuration [%s]; using defaults.", name );
+	}
 
 	/**
 	 * Log a message (WARN) about inability to find named cache configuration
