@@ -31,6 +31,7 @@ import org.hibernate.cache.CacheException;
 import org.hibernate.cfg.Settings;
 
 import org.jboss.logging.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A non-singleton EhCacheRegionFactory implementation.
@@ -42,10 +43,7 @@ import org.jboss.logging.Logger;
  * @author Alex Snaps
  */
 public class EhCacheRegionFactory extends AbstractEhcacheRegionFactory {
-	private static final EhCacheMessageLogger LOG = Logger.getMessageLogger(
-			EhCacheMessageLogger.class,
-			EhCacheRegionFactory.class.getName()
-	);
+	private static final org.slf4j.Logger LOG = LoggerFactory.getLogger(EhCacheRegionFactory.class);
 
 	/**
 	 * Creates a non-singleton EhCacheRegionFactory
@@ -67,7 +65,9 @@ public class EhCacheRegionFactory extends AbstractEhcacheRegionFactory {
 	@Override
 	public void doStart(Settings settings, Properties properties) throws CacheException {
 		if ( manager != null ) {
-			LOG.attemptToRestartAlreadyStartedEhCacheProvider();
+			LOG.info("Attempt to restart an already started EhCacheRegionFactory.  Use sessionFactory.close() between " +
+          "repeated calls to buildSessionFactory. Using previously created EhCacheRegionFactory. If this " +
+          "behaviour is required, consider using org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory.");
 			return;
 		}
 

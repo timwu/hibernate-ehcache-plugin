@@ -30,12 +30,11 @@ import net.sf.ehcache.Element;
 import net.sf.ehcache.constructs.nonstop.NonStopCacheException;
 
 import org.hibernate.cache.CacheException;
-import org.hibernate.cache.ehcache.EhCacheMessageLogger;
 import org.hibernate.cache.ehcache.internal.nonstop.HibernateNonstopCacheExceptionHandler;
 import org.hibernate.cache.ehcache.internal.strategy.EhcacheAccessStrategyFactory;
 import org.hibernate.cache.spi.GeneralDataRegion;
-
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * An Ehcache specific GeneralDataRegion.
@@ -49,10 +48,7 @@ import org.jboss.logging.Logger;
  * @author Alex Snaps
  */
 abstract class EhcacheGeneralDataRegion extends EhcacheDataRegion implements GeneralDataRegion {
-	private static final EhCacheMessageLogger LOG = Logger.getMessageLogger(
-			EhCacheMessageLogger.class,
-			EhcacheGeneralDataRegion.class.getName()
-	);
+	private static final Logger LOG = LoggerFactory.getLogger(EhcacheGeneralDataRegion.class);
 
 	/**
 	 * Constructs an EhcacheGeneralDataRegion around the given underlying cache.
@@ -71,14 +67,14 @@ abstract class EhcacheGeneralDataRegion extends EhcacheDataRegion implements Gen
 	@Override
 	public Object get(Object key) throws CacheException {
 		try {
-			LOG.debugf( "key: %s", key );
+			LOG.debug( "key: %s", key );
 			if ( key == null ) {
 				return null;
 			}
 			else {
 				final Element element = getCache().get( key );
 				if ( element == null ) {
-					LOG.debugf( "Element for key %s is null", key );
+					LOG.debug( "Element for key %s is null", key );
 					return null;
 				}
 				else {
@@ -100,7 +96,7 @@ abstract class EhcacheGeneralDataRegion extends EhcacheDataRegion implements Gen
 
 	@Override
 	public void put(Object key, Object value) throws CacheException {
-		LOG.debugf( "key: %s value: %s", key, value );
+		LOG.debug( "key: %s value: %s", key, value );
 		try {
 			final Element element = new Element( key, value );
 			getCache().put( element );

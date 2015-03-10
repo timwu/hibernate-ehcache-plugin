@@ -28,16 +28,10 @@ import java.net.URL;
 import net.sf.ehcache.Ehcache;
 import net.sf.ehcache.config.CacheConfiguration;
 import net.sf.ehcache.config.Configuration;
-import net.sf.ehcache.config.ConfigurationFactory;
 import net.sf.ehcache.config.NonstopConfiguration;
-import net.sf.ehcache.config.TerracottaConfiguration;
 import net.sf.ehcache.config.TimeoutBehaviorConfiguration.TimeoutBehaviorType;
 
 import org.hibernate.cache.CacheException;
-import org.hibernate.cache.ehcache.EhCacheMessageLogger;
-
-import org.jboss.logging.Logger;
-
 
 /**
  * Copy of Ehcache utils into Hibernate code base
@@ -47,10 +41,6 @@ import org.jboss.logging.Logger;
  * @author Alex Snaps
  */
 public final class HibernateEhcacheUtils {
-	private static final EhCacheMessageLogger LOG = Logger.getMessageLogger(
-			EhCacheMessageLogger.class,
-			HibernateEhcacheUtils.class.getName()
-	);
 
 	private HibernateEhcacheUtils() {
 	}

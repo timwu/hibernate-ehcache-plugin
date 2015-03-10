@@ -29,12 +29,11 @@ import java.util.UUID;
 import java.util.concurrent.atomic.AtomicLong;
 
 import org.hibernate.cache.CacheException;
-import org.hibernate.cache.ehcache.EhCacheMessageLogger;
 import org.hibernate.cache.ehcache.internal.regions.EhcacheTransactionalDataRegion;
 import org.hibernate.cache.spi.access.SoftLock;
 import org.hibernate.cfg.Settings;
-
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Superclass for all Ehcache specific read/write AccessStrategy implementations.
@@ -48,10 +47,7 @@ abstract class AbstractReadWriteEhcacheAccessStrategy<T
 		extends EhcacheTransactionalDataRegion>
 		extends AbstractEhcacheAccessStrategy<T> {
 
-	private static final EhCacheMessageLogger LOG = Logger.getMessageLogger(
-			EhCacheMessageLogger.class,
-			AbstractReadWriteEhcacheAccessStrategy.class.getName()
-	);
+	private static final Logger LOG = LoggerFactory.getLogger(AbstractReadWriteEhcacheAccessStrategy.class);
 
 	private final UUID uuid = UUID.randomUUID();
 	private final AtomicLong nextLockId = new AtomicLong();
@@ -186,7 +182,9 @@ abstract class AbstractReadWriteEhcacheAccessStrategy<T
 	 * Handle the timeout of a previous lock mapped to this key
 	 */
 	protected void handleLockExpiry(Object key, Lockable lock) {
-		LOG.softLockedCacheExpired( region().getName(), key, lock == null ? "(null)" : lock.toString() );
+		LOG.warn( "A soft-locked cache entry was expired by the underlying Ehcache. If this happens regularly you " +
+        "should consider increasing the cache timeouts and/or capacity limits", "Cache[%s] Key[%s] Lockable[%s]\n",
+        region().getName(), key, lock == null ? "(null)" : lock.toString() );
 
 		final long ts = region().nextTimestamp() + region().getTimeout();
 		// create new lock that times out immediately

@@ -25,7 +25,6 @@ package org.hibernate.cache.ehcache.internal.strategy;
 
 import net.sf.ehcache.config.CacheConfiguration;
 
-import org.hibernate.cache.ehcache.EhCacheMessageLogger;
 import org.hibernate.cache.ehcache.internal.regions.EhcacheCollectionRegion;
 import org.hibernate.cache.ehcache.internal.regions.EhcacheEntityRegion;
 import org.hibernate.cache.ehcache.internal.regions.EhcacheNaturalIdRegion;
@@ -33,8 +32,8 @@ import org.hibernate.cache.spi.access.AccessType;
 import org.hibernate.cache.spi.access.CollectionRegionAccessStrategy;
 import org.hibernate.cache.spi.access.EntityRegionAccessStrategy;
 import org.hibernate.cache.spi.access.NaturalIdRegionAccessStrategy;
-
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import static net.sf.ehcache.config.TerracottaConfiguration.Consistency.EVENTUAL;
 
@@ -46,10 +45,7 @@ import static net.sf.ehcache.config.TerracottaConfiguration.Consistency.EVENTUAL
  */
 public class EhcacheAccessStrategyFactoryImpl implements EhcacheAccessStrategyFactory {
 
-	private static final EhCacheMessageLogger LOG = Logger.getMessageLogger(
-			EhCacheMessageLogger.class,
-			EhcacheAccessStrategyFactoryImpl.class.getName()
-	);
+	private static final Logger LOG = LoggerFactory.getLogger(EhcacheAccessStrategyFactoryImpl.class);
 	
 	private final boolean alwaysAllowNonstop;
 	private final boolean allowRacyConfigs;
@@ -67,7 +63,7 @@ public class EhcacheAccessStrategyFactoryImpl implements EhcacheAccessStrategyFa
 		switch ( accessType ) {
 			case READ_ONLY:
 				if ( entityRegion.getCacheDataDescription().isMutable() ) {
-					LOG.readOnlyCacheConfiguredForMutableEntity( entityRegion.getName() );
+					LOG.warn( "read-only cache configured for mutable entity [%s]", entityRegion.getName() );
 				}
 				return new ReadOnlyEhcacheEntityRegionAccessStrategy( entityRegion, entityRegion.getSettings() );
 			case READ_WRITE:
@@ -100,7 +96,7 @@ public class EhcacheAccessStrategyFactoryImpl implements EhcacheAccessStrategyFa
 		switch ( accessType ) {
 			case READ_ONLY:
 				if ( collectionRegion.getCacheDataDescription().isMutable() ) {
-					LOG.readOnlyCacheConfiguredForMutableEntity( collectionRegion.getName() );
+					LOG.warn( "read-only cache configured for mutable entity [%s]", collectionRegion.getName() );
 				}
 				return new ReadOnlyEhcacheCollectionRegionAccessStrategy(
 						collectionRegion,
@@ -134,7 +130,7 @@ public class EhcacheAccessStrategyFactoryImpl implements EhcacheAccessStrategyFa
 		switch ( accessType ) {
 			case READ_ONLY:
 				if ( naturalIdRegion.getCacheDataDescription().isMutable() ) {
-					LOG.readOnlyCacheConfiguredForMutableEntity( naturalIdRegion.getName() );
+					LOG.warn( "read-only cache configured for mutable entity [%s]", naturalIdRegion.getName() );
 				}
 				return new ReadOnlyEhcacheNaturalIdRegionAccessStrategy(
 						naturalIdRegion,

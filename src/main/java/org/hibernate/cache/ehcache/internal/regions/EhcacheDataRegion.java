@@ -34,12 +34,11 @@ import net.sf.ehcache.constructs.nonstop.NonStopCacheException;
 import net.sf.ehcache.util.Timestamper;
 
 import org.hibernate.cache.CacheException;
-import org.hibernate.cache.ehcache.EhCacheMessageLogger;
 import org.hibernate.cache.ehcache.internal.nonstop.HibernateNonstopCacheExceptionHandler;
 import org.hibernate.cache.ehcache.internal.strategy.EhcacheAccessStrategyFactory;
 import org.hibernate.cache.spi.Region;
-
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * An Ehcache specific data region implementation.
@@ -53,10 +52,7 @@ import org.jboss.logging.Logger;
  * @author Alex Snaps
  */
 public abstract class EhcacheDataRegion implements Region {
-	private static final EhCacheMessageLogger LOG = Logger.getMessageLogger(
-			EhCacheMessageLogger.class,
-			EhcacheDataRegion.class.getName()
-	);
+	private static final Logger LOG = LoggerFactory.getLogger(EhcacheDataRegion.class);
 	private static final String CACHE_LOCK_TIMEOUT_PROPERTY = "net.sf.ehcache.hibernate.cache_lock_timeout";
 	private static final int DEFAULT_CACHE_LOCK_TIMEOUT = 60000;
 

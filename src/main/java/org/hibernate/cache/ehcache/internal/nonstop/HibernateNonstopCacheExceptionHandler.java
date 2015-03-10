@@ -24,10 +24,8 @@
 package org.hibernate.cache.ehcache.internal.nonstop;
 
 import net.sf.ehcache.constructs.nonstop.NonStopCacheException;
-
-import org.hibernate.cache.ehcache.EhCacheMessageLogger;
-
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Class that takes care of {@link net.sf.ehcache.constructs.nonstop.NonStopCacheException} that happens in hibernate module
@@ -46,10 +44,7 @@ public final class HibernateNonstopCacheExceptionHandler {
 	 */
 	public static final String HIBERNATE_LOG_EXCEPTION_STACK_TRACE_PROPERTY = "ehcache.hibernate.logNonStopCacheExceptionStackTrace";
 
-	private static final EhCacheMessageLogger LOG = Logger.getMessageLogger(
-			EhCacheMessageLogger.class,
-			HibernateNonstopCacheExceptionHandler.class.getName()
-	);
+	private static final Logger LOG = LoggerFactory.getLogger(HibernateNonstopCacheExceptionHandler.class);
 	private static final HibernateNonstopCacheExceptionHandler INSTANCE = new HibernateNonstopCacheExceptionHandler();
 
 	/**

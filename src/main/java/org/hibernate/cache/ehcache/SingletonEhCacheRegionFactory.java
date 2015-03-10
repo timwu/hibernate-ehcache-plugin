@@ -31,8 +31,6 @@ import net.sf.ehcache.CacheManager;
 import org.hibernate.cache.CacheException;
 import org.hibernate.cfg.Settings;
 
-import org.jboss.logging.Logger;
-
 /**
  * A singleton EhCacheRegionFactory implementation.
  *
@@ -42,10 +40,6 @@ import org.jboss.logging.Logger;
  * @author Alex Snaps
  */
 public class SingletonEhCacheRegionFactory extends AbstractEhcacheRegionFactory {
-	private static final EhCacheMessageLogger LOG = Logger.getMessageLogger(
-			EhCacheMessageLogger.class,
-			SingletonEhCacheRegionFactory.class.getName()
-	);
 
 	private static final AtomicInteger REFERENCE_COUNT = new AtomicInteger();
 

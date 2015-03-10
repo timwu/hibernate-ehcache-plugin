@@ -170,7 +170,7 @@ abstract class AbstractEhcacheRegionFactory implements RegionFactory {
 		try {
 			Ehcache cache = manager.getEhcache( name );
 			if ( cache == null ) {
-				LOG.unableToFindEhCacheConfiguration( name );
+				LOG.warn( "Could not find a specific ehcache configuration for cache named [%s]; using defaults.", name );
 				manager.addCache( name );
 				cache = manager.getEhcache( name );
 				LOG.debug( "started EHCache region: " + name );
@@ -210,7 +210,7 @@ abstract class AbstractEhcacheRegionFactory implements RegionFactory {
 			}
 		}
 		if ( LOG.isDebugEnabled() ) {
-			LOG.debugf(
+			LOG.debug(
 					"Creating EhCacheRegionFactory from a specified resource: %s.  Resolved to URL: %s",
 					configurationResourceName,
 					url
@@ -218,7 +218,8 @@ abstract class AbstractEhcacheRegionFactory implements RegionFactory {
 		}
 		if ( url == null ) {
 
-			LOG.unableToLoadConfiguration( configurationResourceName );
+			LOG.warn( "A configurationResourceName was set to %s but the resource could not be loaded from the classpath. " +
+          "Ehcache will configure itself using defaults.", configurationResourceName );
 		}
 		return url;
 	}
@@ -275,7 +276,7 @@ abstract class AbstractEhcacheRegionFactory implements RegionFactory {
 			catch (MalformedURLException e) {
 				if ( !configurationResourceName.startsWith( "/" ) ) {
 					configurationResourceName = "/" + configurationResourceName;
-					LOG.debugf(
+					LOG.debug(
 							"prepending / to %s. It should be placed in the root of the classpath rather than in a package.",
 							configurationResourceName
 					);
