@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- All content copyright Terracotta, Inc., unless otherwise indicated. All rights reserved. -->
+<tc:tc-config xsi:schemaLocation="http://www.terracotta.org/schema/terracotta-5.xsd" xmlns:tc="http://www.terracotta.org/config"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+    <servers>
+        <server host="%i" name="Server1">
+            <data>%(logs.path)/terracotta/server-%h-1/StripeOne_ActiveServer1_server-data</data>
+            <logs>%(logs.path)/terracotta/server-%h-1/StripeOne_ActiveServer1_server-logs</logs>
+
+            <tsa-port>9510</tsa-port>
+            <jmx-port>9520</jmx-port>
+            <tsa-group-port>9530</tsa-group-port>
+
+            <offheap>
+                <enabled>true</enabled>
+                <maxDataSize>1G</maxDataSize>
+            </offheap>
+        </server>
+    </servers>
+</tc:tc-config>

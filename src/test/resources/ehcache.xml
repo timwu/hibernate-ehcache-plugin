@@ -55,9 +55,11 @@
         maxElementsInMemory="10000"
         eternal="false"
         timeToIdleSeconds="120"
-        timeToLiveSeconds="120"
-        overflowToDisk="true"
-        />
+        timeToLiveSeconds="120">
+        <terracotta consistency="STRONG">
+        </terracotta>
+    </defaultCache>
+    <terracottaConfig url="localhost:9530"/>
 
     <!--Predefined caches.  Add your cache configuration settings here.
         If you do not have a configuration for your cache a WARNING will be issued when the
