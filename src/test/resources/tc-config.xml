@@ -18,4 +18,8 @@
             </offheap>
         </server>
     </servers>
+
+    <clients>
+       <logs>%(logs.path)/terracotta/client-logs/logs</logs>
+    </clients>
 </tc:tc-config>

@@ -51,6 +51,20 @@
       </dependency>
   </dependencies>
 
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <systemPropertyVariables>
+              <logs.path>${project.build.directory}</logs.path>
+          </systemPropertyVariables>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+  
   <profiles>
     <profile>
       <id>tc</id>
@@ -59,6 +73,7 @@
           <plugin>
           <groupId>org.terracotta.maven.plugins</groupId>
           <artifactId>tc-maven-plugin</artifactId>
+            <version>2.0.1</version>
           <dependencies>
               <dependency>
                   <groupId>org.terracotta</groupId>
